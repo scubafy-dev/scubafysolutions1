@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { ContactForm } from "@/components/contact-form"
+import { topicConfig, getTopicHref } from "@/lib/topics"
 
 export function ColophonSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -83,11 +84,16 @@ export function ColophonSection() {
         <div className="col-span-1">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Services</h4>
           <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Web Development</li>
-            <li className="font-mono text-xs text-foreground/80">Web Applications</li>
-            <li className="font-mono text-xs text-foreground/80">Mobile Apps</li>
-            <li className="font-mono text-xs text-foreground/80">API Development</li>
-            <li className="font-mono text-xs text-foreground/80">E-Commerce</li>
+            {topicConfig.services.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={getTopicHref("services", item.slug)}
+                  className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -95,10 +101,16 @@ export function ColophonSection() {
         <div className="col-span-1">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Stack</h4>
           <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">React / Next.js</li>
-            <li className="font-mono text-xs text-foreground/80">Node.js</li>
-            <li className="font-mono text-xs text-foreground/80">TypeScript</li>
-            <li className="font-mono text-xs text-foreground/80">Tailwind CSS</li>
+            {topicConfig.stack.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={getTopicHref("stack", item.slug)}
+                  className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -106,10 +118,16 @@ export function ColophonSection() {
         <div className="col-span-1">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Technologies</h4>
           <ul className="space-y-2">
-            <li className="font-mono text-xs text-foreground/80">Vue.js</li>
-            <li className="font-mono text-xs text-foreground/80">Python</li>
-            <li className="font-mono text-xs text-foreground/80">PostgreSQL</li>
-            <li className="font-mono text-xs text-foreground/80">AWS / Vercel</li>
+            {topicConfig.technologies.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={getTopicHref("technologies", item.slug)}
+                  className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -178,7 +196,7 @@ export function ColophonSection() {
             About
           </Link>
           <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
-            © 2025 Scubafy Pte. Ltd.
+            © 2026 Scubafy Pte. Ltd.
           </p>
         </div>
         <p className="font-mono text-[10px] text-muted-foreground">

@@ -134,8 +134,7 @@ export function AboutSection() {
               <h5 className="font-mono text-sm font-medium text-foreground">Amadeus Christensen</h5>
               <p className="font-mono text-xs text-accent uppercase tracking-wider mt-1">Co-Founder & CTO</p>
               <p className="font-mono text-xs text-foreground/90 leading-relaxed mt-4">
-                I Co-Founded Scubafy Solutions to help businesses turn ideas into reliable digital products.
-                With a background in Electrical Engineering and Computer Science and hands-on experience working in real estate development through my family business, I&apos;ve spent years building and improving systems where efficiency and reliability matter. That foundation drives how I approach every project, whether it&apos;s a website, internal tool, or fully custom software solution.
+                I lead our technical direction and architecture at Scubafy Solutions. I grew up around dive centers and resorts and saw the struggle—clunky tools, outdated systems, and operations that don&apos;t talk to each other. My background in Electrical Engineering and Computer Science, plus hands-on work in real estate development, gave me the skills to do something about it. I focus on building software that actually holds up: clean code, sensible architecture, and solutions that grow with your business instead of holding it back.
               </p>
               <Link
                 href="https://www.linkedin.com/in/amadeuschristensen/"
