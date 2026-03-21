@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { SocialLinks } from "@/components/social-links"
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -86,6 +87,13 @@ export function AboutSection() {
             or API development services, we deliver solutions that are scalable, maintainable, and aligned
             with your business objectives.
           </p>
+
+          <div className="pt-6 border-t border-border/20">
+            <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+              Follow us
+            </h4>
+            <SocialLinks listClassName="flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-2" />
+          </div>
         </div>
 
         {/* Additional info grid */}
@@ -124,7 +132,7 @@ export function AboutSection() {
             <div className="flex flex-col items-center text-center max-w-sm">
               <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border/30 mb-4 ring-2 ring-accent/20">
                 <Image
-                  src="https://media.licdn.com/dms/image/v2/D5603AQHeIToKVliRgw/profile-displayphoto-scale_400_400/B56ZnJA2FBI0Ag-/0/1760014095149?e=1773273600&v=beta&t=laxDzckZkE1drK9OLufk1DaBQJFi3eAwCA-2iSq-ee0"
+                  src="https://ik.imagekit.io/hiw6wzfdz/founders/F5AB0843-7A64-4DD1-9383-F7D9D6F29BAE.JPG"
                   alt="Amadeus Christensen"
                   fill
                   className="object-cover"
@@ -149,7 +157,7 @@ export function AboutSection() {
             <div className="flex flex-col items-center text-center max-w-sm">
               <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border/30 mb-4 ring-2 ring-accent/20">
                 <Image
-                  src="https://media.licdn.com/dms/image/v2/D4E03AQHh-zu6_IL3nw/profile-displayphoto-scale_400_400/B4EZpZ6FDkHMAg-/0/1762444991910?e=1773273600&v=beta&t=YtMr0rNkRmXy83VJOX-43ivtBvgkYPQ9iqS5s-YQMKQ"
+                  src="https://ik.imagekit.io/hiw6wzfdz/founders/1773886650664.png"
                   alt="Joseph Lorek"
                   fill
                   className="object-cover"

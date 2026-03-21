@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { ContactForm } from "@/components/contact-form"
+import { SocialLinks } from "@/components/social-links"
 import { topicConfig, getTopicHref } from "@/lib/topics"
 
 export function ColophonSection() {
@@ -199,6 +200,10 @@ export function ColophonSection() {
             © 2026 Scubafy Pte. Ltd.
           </p>
         </div>
+        <SocialLinks
+          landmark
+          linkClassName="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+        />
         <p className="font-mono text-[10px] text-muted-foreground">
           A subsidiary of{" "}
           <a

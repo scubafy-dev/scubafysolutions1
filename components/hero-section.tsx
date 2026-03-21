@@ -6,6 +6,7 @@ import { ScrambleTextOnHover } from "@/components/scramble-text"
 import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
 import { AnimatedNoise } from "@/components/animated-noise"
 import { BitmapChevron } from "@/components/bitmap-chevron"
+import { SocialLinks } from "@/components/social-links"
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -34,7 +35,11 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12">
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12 pt-14 md:pt-20"
+    >
       <AnimatedNoise opacity={0.03} />
 
       {/* Left vertical labels */}
@@ -141,6 +146,11 @@ export function HeroSection() {
             </svg>
             <ScrambleTextOnHover text="About" as="span" duration={0.6} />
           </Link>
+        </div>
+
+        <div className="mt-14 max-w-xl">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">Social</p>
+          <SocialLinks className="opacity-90" listClassName="gap-x-5 gap-y-2" />
         </div>
       </div>
     </section>
