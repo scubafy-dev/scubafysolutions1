@@ -86,6 +86,13 @@ export async function loginAction(
 
   const valid = await verifyAdminCredentials(email, password)
   if (!valid) {
+    const configured = Boolean(process.env.ADMIN_EMAIL?.trim() && process.env.ADMIN_PASSWORD?.trim())
+    if (!configured) {
+      return {
+        error:
+          "Admin login is not configured on the server. Add ADMIN_EMAIL and ADMIN_PASSWORD in Vercel, then Redeploy.",
+      }
+    }
     return { error: "Invalid email or password." }
   }
 

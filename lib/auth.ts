@@ -19,9 +19,13 @@ export function getAdminEmail() {
 
 export async function verifyAdminCredentials(email: string, password: string) {
   const adminEmail = getAdminEmail()
-  const adminPassword = process.env.ADMIN_PASSWORD
+  // Trim env password — Vercel/copy-paste often adds trailing newlines
+  const adminPassword = process.env.ADMIN_PASSWORD?.trim() ?? ""
 
   if (!adminEmail || !adminPassword) {
+    console.error(
+      "[auth] ADMIN_EMAIL or ADMIN_PASSWORD is missing in this environment. Set them in Vercel → Settings → Environment Variables, then redeploy.",
+    )
     return false
   }
 
@@ -29,12 +33,14 @@ export async function verifyAdminCredentials(email: string, password: string) {
     return false
   }
 
+  const submittedPassword = password.trim()
+
   // Support either a bcrypt hash or a plain password in ADMIN_PASSWORD
   if (adminPassword.startsWith("$2")) {
-    return bcrypt.compare(password, adminPassword)
+    return bcrypt.compare(submittedPassword, adminPassword)
   }
 
-  return password === adminPassword
+  return submittedPassword === adminPassword
 }
 
 export async function createSession(email: string) {
