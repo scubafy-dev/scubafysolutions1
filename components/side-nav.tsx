@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -11,6 +10,7 @@ const navItems = [
   { id: "signals", label: "Projects" },
   { id: "work", label: "Portfolio" },
   { id: "principles", label: "Approach" },
+  { id: "blog", label: "Blog" },
   { id: "colophon", label: "Contact" },
 ]
 

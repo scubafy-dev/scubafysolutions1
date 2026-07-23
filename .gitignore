@@ -18,6 +18,10 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
+
+# local blog uploads (dev fallback without Vercel Blob)
+/public/uploads
 
 # vercel
 .vercel

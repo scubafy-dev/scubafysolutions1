@@ -70,7 +70,7 @@ export function ColophonSection() {
     >
       {/* Section header */}
       <div ref={headerRef} className="mb-16 text-center">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">04 / Contact</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">05 / Contact</span>
         <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">GET IN TOUCH</h2>
       </div>
 
@@ -190,12 +190,20 @@ export function ColophonSection() {
         className="mt-24 pt-8 border-t border-border/20 flex flex-col gap-4"
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <Link
-            href="/about"
-            className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
-          >
-            About
-          </Link>
+          <div className="flex flex-wrap gap-6">
+            <Link
+              href="/about"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              About
+            </Link>
+            <Link
+              href="/blog"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              Blog
+            </Link>
+          </div>
           <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
             © 2026 Scubafy Pte. Ltd.
           </p>

@@ -16,6 +16,11 @@ const nextConfig = {
         hostname: 'media.licdn.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+        pathname: '/**',
+      },
     ],
   },
  
