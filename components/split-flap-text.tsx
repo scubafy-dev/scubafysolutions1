@@ -189,9 +189,9 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
 
   const tileDelay = 0.15 * index
 
-  // Use blue accent color from scubafy.co - uses CSS variable to support both light and dark modes
-  const bgColor = isSettled ? "hsl(0, 0%, 0%)" : "oklch(0.55 0.15 220 / 0.2)"
-  const textColor = "var(--accent)"
+  // Soft accent mix — readable without being stark white
+  const bgColor = isSettled ? "transparent" : "oklch(0.55 0.15 220 / 0.2)"
+  const textColor = "color-mix(in oklch, var(--accent) 45%, var(--foreground))"
 
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)

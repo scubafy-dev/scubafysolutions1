@@ -1,56 +1,26 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { ScrambleTextOnHover } from "@/components/scramble-text"
 import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
-import { AnimatedNoise } from "@/components/animated-noise"
 import { BitmapChevron } from "@/components/bitmap-chevron"
 import { SocialLinks } from "@/components/social-links"
 
 export function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!contentRef.current) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const progress = 1 - entry.intersectionRatio
-          const translateY = -100 * Math.min(progress * 2, 1)
-          const opacity = 1 - Math.min(progress * 2, 1)
-          contentRef.current!.style.transform = `translateY(${translateY}px)`
-          contentRef.current!.style.opacity = String(opacity)
-        }
-      },
-      {
-        threshold: Array.from({ length: 101 }, (_, i) => i / 100),
-      },
-    )
-
-    observer.observe(sectionRef.current!)
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <section
-      ref={sectionRef}
       id="hero"
       className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12 pt-14 md:pt-20"
     >
-      <AnimatedNoise opacity={0.03} />
-
       {/* Left vertical labels */}
-      <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2">
+      <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-10">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground -rotate-90 origin-left block whitespace-nowrap">
           SCUBAFY
         </span>
       </div>
 
       {/* Main content */}
-      <div ref={contentRef} className="flex-1 w-full">
+      <div className="relative z-10 flex-1 w-full">
         <SplitFlapAudioProvider>
           <div className="relative">
             <div className="flex flex-col">
@@ -63,11 +33,11 @@ export function HeroSection() {
           </div>
         </SplitFlapAudioProvider>
 
-        <h2 className="font-[var(--font-bebas)] text-accent text-[clamp(1rem,3vw,2rem)] mt-4 tracking-wide">
+        <h2 className="font-[var(--font-bebas)] text-foreground/80 text-[clamp(1.1rem,3vw,2.25rem)] mt-4 tracking-wide">
           Web Development & Digital Solutions
         </h2>
 
-        <p className="mt-12 max-w-md font-mono text-sm text-foreground leading-relaxed">
+        <p className="mt-12 max-w-md font-mono text-sm text-foreground/75 leading-relaxed">
           We design and develop custom websites, web applications, mobile apps, and digital platforms. Full-stack development services from frontend to backend, cloud infrastructure, APIs, e-commerce solutions, and more. Delivering scalable solutions that grow with your business.
         </p>
 

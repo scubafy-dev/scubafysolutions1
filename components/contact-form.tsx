@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 
+const budgetOptions = ["Less than $5k", "$5k – $10k", "$10k – $20k", "$20k – $50k", "$50k – $100k", "More than $100k"] as const
+
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
+  budget: z.enum(budgetOptions, { errorMap: () => ({ message: "Please select a budget range" }) }),
   message: z.string().min(10, "Message must be at least 10 characters"),
 })
 
@@ -22,9 +25,13 @@ export function ContactForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   })
+
+  const selectedBudget = watch("budget")
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
@@ -41,6 +48,7 @@ export function ContactForm() {
           access_key: "e6d36c0d-db93-4fb7-8ce6-a0398b175bf8",
           name: data.name,
           email: data.email,
+          budget: data.budget,
           message: data.message,
         }),
       })
@@ -98,6 +106,33 @@ export function ContactForm() {
       </div>
 
       <div>
+        <span className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
+          What is your project budget?
+        </span>
+        <input type="hidden" {...register("budget")} />
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {budgetOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setValue("budget", option, { shouldValidate: true })}
+              aria-pressed={selectedBudget === option}
+              className={`px-4 py-3 border rounded-md font-mono text-xs text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
+                selectedBudget === option
+                  ? "bg-accent text-accent-foreground border-accent"
+                  : "bg-background text-foreground border-border/30 hover:border-accent/60"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+        {errors.budget && (
+          <p className="mt-1 font-mono text-xs text-red-400">{errors.budget.message}</p>
+        )}
+      </div>
+
+      <div>
         <label htmlFor="message" className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
           Message
         </label>
@@ -121,6 +156,21 @@ export function ContactForm() {
         {isSubmitting ? "Sending..." : "Send Message"}
       </button>
 
+      <div className="relative flex items-center gap-4">
+        <div className="h-px flex-1 bg-border/30" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">or</span>
+        <div className="h-px flex-1 bg-border/30" />
+      </div>
+
+      <a
+        href="https://calendly.com/amadeus-christensen-scubafy/new-meeting"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full px-6 py-3 border border-border/30 bg-background text-foreground font-mono text-sm uppercase tracking-wider rounded-md text-center hover:border-accent hover:text-accent transition-colors duration-200"
+      >
+        Book a Meeting
+      </a>
+
       {submitStatus === "success" && (
         <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-md">
           <p className="font-mono text-sm text-green-400">
@@ -139,4 +189,3 @@ export function ContactForm() {
     </form>
   )
 }
-
