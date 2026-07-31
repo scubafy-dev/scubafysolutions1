@@ -213,16 +213,7 @@ export function ColophonSection() {
           linkClassName="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
         />
         <p className="font-mono text-[10px] text-muted-foreground">
-          A subsidiary of{" "}
-          <a
-            href="https://www.scubafy.co/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent hover:underline"
-          >
-            Scubafy
-          </a>
-          . Building the web, one project at a time.
+          Building the web, one project at a time.
         </p>
       </div>
     </section>

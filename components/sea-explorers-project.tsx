@@ -25,6 +25,18 @@ const resorts = [
     note: "Island sister resort to Dauin. Same systems, tailored to Cabilao — so the team can manage both locations without juggling separate tools.",
   },
   {
+    name: "Ocean Vida",
+    location: "Beach & Dive Resort · Malapascua",
+    logo: "https://ik.imagekit.io/hiw6wzfdz/scubafy%20solutions/sea%20ex/LOGO/ocean%20vida/Ocean%20Vida%20tuquoise%20-%20Malapascua2RGB.png",
+    note: "Their Malapascua beach and dive property. Brought into the same booking, CRM, and loyalty stack so the group can run Malapascua alongside Dauin and Cabilao from one place.",
+  },
+  {
+    name: "Buena Vida",
+    location: "Resort & Spa · Malapascua",
+    logo: "https://ik.imagekit.io/hiw6wzfdz/scubafy%20solutions/sea%20ex/LOGO/buena%20vida%20(malapascua)/Buena%20Vida%20Logo%20RGB.png",
+    note: "Resort and spa on Malapascua. Connected to the shared CRM, loyalty, and booking systems so guests and staff get one consistent experience across the Malapascua properties.",
+  },
+  {
     name: "M/Y Gypsy",
     location: "Liveaboard · Philippines",
     logo: "https://ik.imagekit.io/hiw6wzfdz/sea%20ex/LOGO/MY%20GYPSY/SEL-logo_dark-circle2.png",

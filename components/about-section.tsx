@@ -66,16 +66,7 @@ export function AboutSection() {
       <div ref={contentRef} className="max-w-3xl mx-auto space-y-8">
         <div className="space-y-6">
           <p className="font-mono text-sm text-foreground/80 leading-relaxed">
-            Scubafy Solutions is a subsidiary of{" "}
-            <a
-              href="https://scubafy.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
-              Scubafy
-            </a>
-            , specializing in web development and digital solutions. Behind every project is a dedicated team of professionals committed to delivering results.
+            Scubafy Solutions specializes in web development and digital solutions. Behind every project is a dedicated team of professionals committed to delivering results.
           </p>
 
           <p className="font-mono text-sm text-foreground/80 leading-relaxed">
