@@ -182,7 +182,7 @@ export function ContactForm() {
       {submitStatus === "error" && (
         <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-md">
           <p className="font-mono text-sm text-red-400">
-            Something went wrong. Please try again or email us directly at developer@scubafy.co
+            Something went wrong. Please try again or email us directly at contact@scubafysolutions.com
           </p>
         </div>
       )}

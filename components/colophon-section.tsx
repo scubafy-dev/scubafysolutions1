@@ -157,10 +157,10 @@ export function ColophonSection() {
           <ul className="space-y-2">
             <li>
               <a
-                href="mailto:developer@scubafy.co"
+                href="mailto:contact@scubafysolutions.com"
                 className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
               >
-                developer@scubafy.co
+                contact@scubafysolutions.com
               </a>
             </li>
             <li>
