@@ -10,6 +10,7 @@ export const topicConfig: Record<
     { title: "Mobile Apps", slug: "mobile-apps", label: "Mobile Apps" },
     { title: "API Development", slug: "api-development", label: "API Development" },
     { title: "E-Commerce", slug: "e-commerce", label: "E-Commerce" },
+    { title: "Marketing", slug: "marketing", label: "Marketing" },
   ],
   stack: [
     { title: "React / Next.js", slug: "react-nextjs", label: "React / Next.js" },
@@ -175,6 +176,33 @@ export const topicContent: Record<
             "Secure checkout and payment gateway integration",
             "Order and inventory management and notifications",
             "Discounts, shipping rules, and basic reporting",
+          ],
+        },
+      ],
+    },
+    marketing: {
+      title: "Marketing",
+      description:
+        "Full-service digital marketing across every platform you use. Our team of experts creates content, manages social media, runs campaigns, and grows your brand wherever your audience spends time, not just on your website.",
+      bullets: [
+        "Multi-platform digital marketing",
+        "Content creation (video, graphics, copy)",
+        "Social media management and posting",
+        "SEO, ads, and campaign strategy",
+      ],
+      paragraphs: [
+        "Marketing today isn't a single channel. Your customers discover you on Instagram, TikTok, LinkedIn, YouTube, email, search, and more, and they expect a consistent voice wherever they land. Our team of experts handles digital marketing across platforms: strategy, creative, scheduling, community engagement, and reporting so your brand shows up clearly and regularly without you having to run it day to day.",
+        "We create the digital content that fuels those channels: posts, reels, stories, graphics, short-form video, newsletters, and ad creative, matched to each platform's format and audience. On the management side we plan calendars, publish and engage, monitor performance, and iterate. Your website stays part of the mix (SEO, landing pages, conversion), but it's one piece of a broader presence we build and maintain with you.",
+      ],
+      sections: [
+        {
+          heading: "What we handle",
+          body: "Whether you need an end-to-end marketing partner or support for a specific channel, our team of experts scopes the work to your goals (awareness, engagement, leads, or sales) and keeps everything on-brand across platforms.",
+          bullets: [
+            "Social media management: strategy, calendars, posting, and engagement",
+            "Digital content creation: graphics, video, copy, and campaign assets",
+            "Multi-platform presence: Instagram, TikTok, LinkedIn, YouTube, email, and more",
+            "SEO, paid campaigns, analytics, and reporting tied to real outcomes",
           ],
         },
       ],

@@ -98,6 +98,7 @@ export function AboutSection() {
               <li>• Full-Stack Applications</li>
               <li>• API & Backend Services</li>
               <li>• E-Commerce Solutions</li>
+              <li>• Marketing</li>
             </ul>
           </div>
 

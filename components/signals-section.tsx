@@ -1,34 +1,15 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { topicConfig, topicContent, getTopicHref } from "@/lib/topics"
 
-const services = [
-  {
-    title: "Web Development",
-    note: "Custom websites and web applications built with modern frameworks. Responsive, fast, and optimized for performance.",
-  },
-  {
-    title: "App Development",
-    note: "Native iOS and Android mobile applications, plus cross-platform solutions. From concept to app store deployment.",
-  },
-  {
-    title: "E-Commerce Solutions",
-    note: "Complete online stores with payment processing, inventory management, and admin dashboards.",
-  },
-  {
-    title: "API & Backend",
-    note: "Scalable backend architecture with REST/GraphQL APIs, microservices, authentication, and cloud infrastructure.",
-  },
-  {
-    title: "Cloud Infrastructure",
-    note: "DevOps, deployment, and cloud services. We handle hosting, scaling, and infrastructure management.",
-  },
-  {
-    title: "IT Consulting",
-    note: "Technology strategy, system integration, and ongoing support. We help you make the right technical decisions.",
-  },
-]
+const services = topicConfig.services.map((item) => ({
+  title: item.title,
+  slug: item.slug,
+  note: topicContent.services[item.slug]?.description ?? "",
+}))
 
 export function SignalsSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -279,7 +260,7 @@ function ServiceCard({
   service,
   index,
 }: {
-  service: { title: string; note: string }
+  service: { title: string; slug: string; note: string }
   index: number
 }) {
   return (
@@ -293,8 +274,10 @@ function ServiceCard({
         animationDelay: `${index * 0.1}s`,
       }}
     >
-      {/* Card with paper texture effect */}
-      <div className="relative bg-card border border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8">
+      <Link
+        href={getTopicHref("services", service.slug)}
+        className="block relative bg-card border border-border/50 md:border-t md:border-l md:border-r-0 md:border-b-0 p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
         {/* Top torn edge effect */}
         <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
@@ -302,6 +285,9 @@ function ServiceCard({
         <div className="flex items-baseline justify-between mb-8">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
             {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            View →
           </span>
         </div>
 
@@ -320,7 +306,7 @@ function ServiceCard({
         <div className="absolute bottom-0 right-0 w-6 h-6 overflow-hidden">
           <div className="absolute bottom-0 right-0 w-8 h-8 bg-background rotate-45 translate-x-4 translate-y-4 border-t border-l border-border/30" />
         </div>
-      </div>
+      </Link>
 
       {/* Shadow/depth layer */}
       <div className="absolute inset-0 -z-10 translate-x-1 translate-y-1 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
