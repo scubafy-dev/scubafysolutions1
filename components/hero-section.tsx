@@ -38,7 +38,7 @@ export function HeroSection() {
         </h2>
 
         <p className="mt-12 max-w-md font-mono text-sm text-foreground/75 leading-relaxed">
-          We design and develop custom websites, web applications, mobile apps, and digital platforms. Full-stack development services from frontend to backend, cloud infrastructure, APIs, e-commerce solutions, and more. Delivering scalable solutions that grow with your business.
+          We design and develop custom websites, web applications, mobile apps, and digital platforms. Full-stack development services from frontend to backend, cloud infrastructure, APIs, custom AI platforms, e-commerce solutions, and more. Delivering scalable solutions that grow with your business.
         </p>
 
         <div className="mt-16 flex flex-wrap items-center gap-4 md:gap-8">

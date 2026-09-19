@@ -75,7 +75,7 @@ export function AboutSection() {
 
           <p className="font-mono text-sm text-foreground/80 leading-relaxed">
             Whether you need a custom web application, an e-commerce platform, a mobile-responsive website,
-            or API development services, we deliver solutions that are scalable, maintainable, and aligned
+            API development, or a custom AI platform, we deliver solutions that are scalable, maintainable, and aligned
             with your business objectives.
           </p>
 
@@ -96,6 +96,7 @@ export function AboutSection() {
             <ul className="space-y-2 font-mono text-xs text-foreground/80">
               <li>• Custom Web Development</li>
               <li>• Full-Stack Applications</li>
+              <li>• AI Development</li>
               <li>• API & Backend Services</li>
               <li>• E-Commerce Solutions</li>
               <li>• Marketing</li>

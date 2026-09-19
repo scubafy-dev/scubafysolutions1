@@ -8,6 +8,7 @@ export const topicConfig: Record<
     { title: "Web Development", slug: "web-development", label: "Web Development" },
     { title: "Web Applications", slug: "web-applications", label: "Web Applications" },
     { title: "Mobile Apps", slug: "mobile-apps", label: "Mobile Apps" },
+    { title: "AI Development", slug: "ai-development", label: "AI Development" },
     { title: "API Development", slug: "api-development", label: "API Development" },
     { title: "E-Commerce", slug: "e-commerce", label: "E-Commerce" },
     { title: "Marketing", slug: "marketing", label: "Marketing" },
@@ -149,6 +150,33 @@ export const topicContent: Record<
             "Authentication, authorization, and audit logging",
             "OpenAPI/Swagger or GraphQL schema and docs",
             "Health checks, monitoring, and alerting",
+          ],
+        },
+      ],
+    },
+    "ai-development": {
+      title: "AI Development",
+      description:
+        "Custom AI platforms built around your business—not a generic chatbot wrapper. We design and ship the full product: the interface, the models, your data layer, and the workflows your team or customers actually use.",
+      bullets: [
+        "Custom AI platforms from the ground up",
+        "Assistants and in-app AI features",
+        "Document search and retrieval (RAG)",
+        "Workflow automation, evals, and production ops",
+      ],
+      paragraphs: [
+        "If you need your own AI product, we build it as a real platform: accounts and permissions, a UI your users can live in, connections to your tools and documents, and a backend that routes models, tracks usage, and keeps costs and quality under control. That can be an internal system for your team, a branded product you sell, or a portal your customers log into.",
+        "We also add AI into software you already run—search, drafting, assistants, or automation that sits behind your existing auth, data, and APIs. Either way we design around your constraints: what the model is allowed to see, what it is allowed to do, and how a person reviews the result when it matters. The stack is the same one we ship elsewhere—Next.js, Node, Python, and PostgreSQL—so it is a product you can operate, not a demo that never leaves a notebook.",
+      ],
+      sections: [
+        {
+          heading: "What we deliver",
+          body: "A working platform or feature with logging, cost controls, and a way to measure whether answers are actually useful. We can start with a focused prototype, then harden it for real users: roles, rate limits, audit trails, fallbacks when the model fails, and documentation for the team that will operate it.",
+          bullets: [
+            "End-to-end AI platforms: UI, APIs, data, and model orchestration",
+            "Chat, search, and summarization grounded in your data",
+            "Tool-using workflows (tickets, bookings, CRM, email)",
+            "Prompt design, evaluation sets, guardrails, hosting, and handoff",
           ],
         },
       ],
