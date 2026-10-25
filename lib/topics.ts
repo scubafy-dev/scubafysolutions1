@@ -11,6 +11,8 @@ export const topicConfig: Record<
     { title: "AI Development", slug: "ai-development", label: "AI Development" },
     { title: "API Development", slug: "api-development", label: "API Development" },
     { title: "E-Commerce", slug: "e-commerce", label: "E-Commerce" },
+    { title: "Fintech", slug: "fintech", label: "Fintech" },
+    { title: "Email Outreach", slug: "email-outreach", label: "Email Outreach" },
     { title: "Marketing", slug: "marketing", label: "Marketing" },
   ],
   stack: [
@@ -204,6 +206,60 @@ export const topicContent: Record<
             "Secure checkout and payment gateway integration",
             "Order and inventory management and notifications",
             "Discounts, shipping rules, and basic reporting",
+          ],
+        },
+      ],
+    },
+    fintech: {
+      title: "Fintech",
+      description:
+        "Payment systems, financial platforms, and money-moving products built for real users and real compliance. We design secure flows for wallets, payouts, lending tools, and banking-adjacent apps that scale with your business.",
+      bullets: [
+        "Payments, payouts, and wallets",
+        "KYC, auth, and audit trails",
+        "Ledger and transaction systems",
+        "Banking and processor integrations",
+      ],
+      paragraphs: [
+        "Fintech products live or die on trust: money has to move correctly, balances have to reconcile, and every sensitive action needs a clear trail. We build platforms around that reality—customer and admin interfaces, payment and banking integrations, and backends that treat ledgers, idempotency, and permissions as first-class concerns.",
+        "Whether you need a checkout and payout layer, a customer wallet, a lending or billing portal, or an internal ops console for finance teams, we ship full-stack solutions on the same stack we use elsewhere (Next.js, Node, Python, PostgreSQL) with Stripe, bank APIs, and other processors wired in cleanly. Security, role-based access, and operational visibility are built in from day one—not bolted on later.",
+      ],
+      sections: [
+        {
+          heading: "What we deliver",
+          body: "A production-ready fintech surface: flows your users understand, integrations that settle reliably, and tooling your ops team can run. We scope around your regulatory and partner constraints so the product is ready for real money, not just a demo.",
+          bullets: [
+            "Payment, payout, and subscription flows with processor integrations",
+            "Wallets, balances, and transaction history with audit logging",
+            "KYC/onboarding hooks, roles, and secure session design",
+            "Admin dashboards, reconciliation support, and handoff docs",
+          ],
+        },
+      ],
+    },
+    "email-outreach": {
+      title: "Email Outreach",
+      description:
+        "Outbound lead generation at scale: we build your prospect lists, set up dedicated mailboxes, write three-step email sequences, and send to thousands of contacts every month so your pipeline keeps filling.",
+      bullets: [
+        "Targeted lead research and list building",
+        "Mailbox setup and deliverability",
+        "Three-step email sequences",
+        "Thousands of sends per month",
+      ],
+      paragraphs: [
+        "Cold outreach only works when the list is right, the inbox is trusted, and the copy earns a reply. We handle the full outbound stack: researching and gathering qualified leads for your ICP, provisioning and warming mailboxes so messages land in primary inboxes, and writing a three-email sequence that introduces you, follows up, and closes the loop without sounding like spam.",
+        "Once the system is live, we run volume—thousands of emails a month—with tracking on opens, replies, and meetings booked. You get a repeatable machine for top-of-funnel conversations instead of one-off blasts. We tune subject lines, send windows, and targeting as data comes in so response rates improve over time.",
+      ],
+      sections: [
+        {
+          heading: "What we run for you",
+          body: "End-to-end outbound: from who you should email, to the infrastructure that sends it, to the three-touch sequence that turns strangers into conversations. Built for consistent monthly volume and clear reporting.",
+          bullets: [
+            "Lead gathering and list building matched to your ideal customer",
+            "Dedicated mailbox setup, domain/DNS, and warm-up for deliverability",
+            "Copy and cadence for a three-email sequence (intro, follow-up, close)",
+            "Ongoing sends at scale with reply handling and performance reporting",
           ],
         },
       ],

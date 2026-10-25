@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { SocialLinks } from "@/components/social-links"
+import { CertificationsList } from "@/components/certifications"
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -88,7 +89,7 @@ export function AboutSection() {
         </div>
 
         {/* Additional info grid */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-border/20">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-border/20">
           <div>
             <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
               Our Focus
@@ -99,6 +100,8 @@ export function AboutSection() {
               <li>• AI Development</li>
               <li>• API & Backend Services</li>
               <li>• E-Commerce Solutions</li>
+              <li>• Fintech</li>
+              <li>• Email Outreach</li>
               <li>• Marketing</li>
             </ul>
           </div>
@@ -113,6 +116,13 @@ export function AboutSection() {
               <li>• Agile Methodology</li>
               <li>• Continuous Support</li>
             </ul>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+              Certifications
+            </h4>
+            <CertificationsList />
           </div>
         </div>
 

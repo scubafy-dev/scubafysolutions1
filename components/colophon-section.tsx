@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { ContactForm } from "@/components/contact-form"
 import { SocialLinks } from "@/components/social-links"
+import { CertificationsList } from "@/components/certifications"
 import { topicConfig, getTopicHref } from "@/lib/topics"
 
 export function ColophonSection() {
@@ -79,10 +80,10 @@ export function ColophonSection() {
         <ContactForm />
       </div>
 
-      {/* Multi-column layout */}
-      <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-12">
+      {/* Multi-column layout — wraps so long email / cert labels don't collide */}
+      <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16 md:gap-x-12 md:gap-y-20">
         {/* Services */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Services</h4>
           <ul className="space-y-2">
             {topicConfig.services.map((item) => (
@@ -99,7 +100,7 @@ export function ColophonSection() {
         </div>
 
         {/* Stack */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Stack</h4>
           <ul className="space-y-2">
             {topicConfig.stack.map((item) => (
@@ -116,7 +117,7 @@ export function ColophonSection() {
         </div>
 
         {/* Technologies */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Technologies</h4>
           <ul className="space-y-2">
             {topicConfig.technologies.map((item) => (
@@ -132,8 +133,14 @@ export function ColophonSection() {
           </ul>
         </div>
 
+        {/* Certifications */}
+        <div className="min-w-0">
+          <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Certifications</h4>
+          <CertificationsList size="sm" />
+        </div>
+
         {/* Location */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Location</h4>
           <ul className="space-y-2">
             <li>
@@ -152,13 +159,13 @@ export function ColophonSection() {
         </div>
 
         {/* Contact */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Contact</h4>
           <ul className="space-y-2">
             <li>
               <a
                 href="mailto:contact@scubafysolutions.com"
-                className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
+                className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200 break-all"
               >
                 contact@scubafysolutions.com
               </a>
@@ -175,7 +182,7 @@ export function ColophonSection() {
         </div>
 
         {/* Year */}
-        <div className="col-span-1">
+        <div className="min-w-0">
           <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-4">Year</h4>
           <ul className="space-y-2">
             <li className="font-mono text-xs text-foreground/80">2025</li>
