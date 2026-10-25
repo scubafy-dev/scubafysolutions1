@@ -1,21 +1,34 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue } from "next/font/google"
+import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
-const ibmPlexSans = IBM_Plex_Sans({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
+// Self-hosted to avoid Turbopack/Google Fonts build failures
+// (next/font/google intermittently returns extensionless /l/font?kit= URLs)
+const ibmPlexSans = localFont({
+  src: "./fonts/ibm-plex-sans.woff2",
+  weight: "100 700",
+  style: "normal",
   variable: "--font-ibm-plex-sans",
+  display: "swap",
 })
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ["400", "500"],
-  subsets: ["latin"],
+const ibmPlexMono = localFont({
+  src: [
+    { path: "./fonts/ibm-plex-mono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-mono-500.woff2", weight: "500", style: "normal" },
+  ],
   variable: "--font-ibm-plex-mono",
+  display: "swap",
 })
-const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"], variable: "--font-bebas" })
+const bebasNeue = localFont({
+  src: "./fonts/bebas-neue.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-bebas",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "Scubafy Solutions — Web Development Agency",
