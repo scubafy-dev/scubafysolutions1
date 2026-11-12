@@ -6,6 +6,7 @@ import { SideNav } from "@/components/side-nav"
 import { MarkdownContent } from "@/components/blog/markdown-content"
 import { BlogImageSlideshow } from "@/components/blog/image-slideshow"
 import { getPublishedPostBySlug } from "@/lib/blog"
+import { categoryLabel, resolveBlogCategory } from "@/lib/blog-categories"
 import { parseContentImages } from "@/lib/content-images"
 
 export const dynamic = "force-dynamic"
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: post.canonicalUrl || `/blog/${post.slug}`,
       },
-      category: post.category || undefined,
+      category: categoryLabel(post.category) || undefined,
     }
   } catch {
     return { title: "Blog — Scubafy Solutions" }
@@ -91,6 +92,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   const tags = splitList(post.tags)
   const author = post.authorName || "Scubafy Solutions"
+  const category = resolveBlogCategory(post.category)
+  const sectionLabel = categoryLabel(post.category) || "Blog"
   const image = post.ogImage || post.coverImage || undefined
   const galleryImages = parseContentImages(post.contentImages)
   const schemaImages = [post.coverImage, ...galleryImages].filter(Boolean) as string[]
@@ -105,7 +108,7 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt?.toISOString(),
     dateModified: post.updatedAt.toISOString(),
     keywords: [post.focusKeyword, post.keywords, post.tags].filter(Boolean).join(", ") || undefined,
-    articleSection: post.category || undefined,
+    articleSection: categoryLabel(post.category) || undefined,
     author: {
       "@type": "Person",
       name: author,
@@ -134,9 +137,21 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-10 text-center">
             <div className="mb-4 flex flex-wrap items-center justify-center gap-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
-                {post.category || "Blog"}
-              </span>
+              {post.featured ? (
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Featured</span>
+              ) : null}
+              {category ? (
+                <Link
+                  href={`/blog?category=${category.slug}`}
+                  className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent hover:opacity-80 transition-opacity"
+                >
+                  {sectionLabel}
+                </Link>
+              ) : (
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+                  {sectionLabel}
+                </span>
+              )}
               <Link
                 href="/blog"
                 className="font-mono text-xs text-muted-foreground hover:text-accent transition-colors duration-200 uppercase tracking-wider"

@@ -211,7 +211,7 @@ export function SeaExplorersProject() {
           Want something similar for your group?
         </p>
         <Link
-          href="/#colophon"
+          href="/contact"
           className="font-mono text-xs text-accent hover:underline uppercase tracking-wider"
         >
           Get in touch →

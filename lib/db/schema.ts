@@ -23,6 +23,8 @@ export const posts = pgTable("posts", {
   tags: text("tags"),
   authorName: text("author_name"),
   noIndex: boolean("no_index").notNull().default(false),
+  /** Pinned on the blog index and homepage */
+  featured: boolean("featured").notNull().default(false),
   // Publishing
   published: boolean("published").notNull().default(false),
   archived: boolean("archived").notNull().default(false),

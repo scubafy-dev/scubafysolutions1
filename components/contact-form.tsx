@@ -1,67 +1,97 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { budgetOptions, contactInquirySchema, services, type ContactInquiry } from "@/lib/contact-inquiry"
 
-const budgetOptions = ["Less than $5k", "$5k – $10k", "$10k – $20k", "$20k – $50k", "$50k – $100k", "More than $100k"] as const
+const formSchema = contactInquirySchema.omit({ submissionId: true })
+type FormData = Omit<ContactInquiry, "submissionId">
 
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  budget: z.enum(budgetOptions, { errorMap: () => ({ message: "Please select a budget range" }) }),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-})
+const steps = [
+  { title: "What do you need done?", field: "service" as const, options: services },
+  { title: "What's the budget?", field: "budget" as const, options: budgetOptions },
+]
 
-type FormData = z.infer<typeof formSchema>
+const inputClass =
+  "w-full border border-border/50 bg-transparent px-4 py-3 font-mono text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-accent"
+const labelClass = "font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
 
 export function ContactForm() {
+  const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "received" | "error">("idle")
+  const advanceTimer = useRef<number | null>(null)
+  const submissionId = useRef(crypto.randomUUID())
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    clearErrors,
     setValue,
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: { note: "" },
   })
 
+  const selectedService = watch("service")
   const selectedBudget = watch("budget")
+  const selected = step === 0 ? selectedService : selectedBudget
+  const done = submitStatus === "success" || submitStatus === "received"
+
+  function choose(field: "service" | "budget", value: FormData["service"] | FormData["budget"]) {
+    clearErrors()
+    setValue(field, value)
+    if (advanceTimer.current) window.clearTimeout(advanceTimer.current)
+    advanceTimer.current = window.setTimeout(() => setStep((current) => Math.min(current + 1, 2)), 160)
+  }
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
     setSubmitStatus("idle")
+    const note = data.note.trim()
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "e6d36c0d-db93-4fb7-8ce6-a0398b175bf8",
-          name: data.name,
-          email: data.email,
-          budget: data.budget,
-          message: data.message,
+      const payload = {
+        name: data.name,
+        email: data.email,
+        service: data.service,
+        budget: data.budget,
+        note,
+        submissionId: submissionId.current,
+      }
+      const [leadResponse, confirmResponse] = await Promise.all([
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: "6e63bcfc-84d3-4d74-b1ef-5f6eddbff1b8",
+            name: data.name,
+            email: data.email,
+            service: data.service,
+            budget: data.budget,
+            message: [`Project: ${data.service}`, `Budget: ${data.budget}`, note].filter(Boolean).join("\n\n"),
+          }),
         }),
-      })
+        fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }),
+      ])
 
-      const result = await response.json()
+      const lead = (await leadResponse.json()) as { success?: boolean }
+      const result = (await confirmResponse.json()) as { success?: boolean; confirmed?: boolean }
 
-      if (result.success) {
+      if (lead.success && result.success && result.confirmed) {
+        submissionId.current = crypto.randomUUID()
         setSubmitStatus("success")
-        reset()
-        setTimeout(() => setSubmitStatus("idle"), 5000)
+      } else if (lead.success && result.success) {
+        setSubmitStatus("received")
       } else {
         setSubmitStatus("error")
-        console.error("Form submission failed:", result)
       }
     } catch (error) {
       console.error("Form submission error:", error)
@@ -72,120 +102,167 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div>
-        <label htmlFor="name" className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
-          Name
-        </label>
-        <input
-          {...register("name")}
-          type="text"
-          id="name"
-          className="w-full px-4 py-3 bg-background border border-border/30 rounded-md font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          placeholder="Your name"
-        />
-        {errors.name && (
-          <p className="mt-1 font-mono text-xs text-red-400">{errors.name.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="email" className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
-          Email
-        </label>
-        <input
-          {...register("email")}
-          type="email"
-          id="email"
-          className="w-full px-4 py-3 bg-background border border-border/30 rounded-md font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          placeholder="your.email@example.com"
-        />
-        {errors.email && (
-          <p className="mt-1 font-mono text-xs text-red-400">{errors.email.message}</p>
-        )}
-      </div>
-
-      <div>
-        <span className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
-          What is your project budget?
-        </span>
-        <input type="hidden" {...register("budget")} />
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {budgetOptions.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setValue("budget", option, { shouldValidate: true })}
-              aria-pressed={selectedBudget === option}
-              className={`px-4 py-3 border rounded-md font-mono text-xs text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
-                selectedBudget === option
-                  ? "bg-accent text-accent-foreground border-accent"
-                  : "bg-background text-foreground border-border/30 hover:border-accent/60"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {errors.budget && (
-          <p className="mt-1 font-mono text-xs text-red-400">{errors.budget.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="message" className="block font-mono text-xs text-muted-foreground mb-2 uppercase tracking-wider">
-          Message
-        </label>
-        <textarea
-          {...register("message")}
-          id="message"
-          rows={6}
-          className="w-full px-4 py-3 bg-background border border-border/30 rounded-md font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your project..."
-        />
-        {errors.message && (
-          <p className="mt-1 font-mono text-xs text-red-400">{errors.message.message}</p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full px-6 py-3 bg-accent text-accent-foreground font-mono text-sm uppercase tracking-wider rounded-md hover:bg-accent/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className="mx-auto w-full max-w-xl">
+      <form
+        onSubmit={(event) => {
+          if (step < 2) {
+            event.preventDefault()
+            return
+          }
+          void handleSubmit(onSubmit)(event)
+        }}
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
-      </button>
+        <div className="mb-8 text-center">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+            {done ? "Sent" : `Step ${step + 1} of 3`}
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-2" aria-hidden="true">
+            {[0, 1, 2].map((index) => (
+              <span
+                key={index}
+                className={`h-1.5 w-6 ${
+                  done || index <= step ? "bg-accent" : "bg-border"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
 
-      <div className="relative flex items-center gap-4">
-        <div className="h-px flex-1 bg-border/30" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">or</span>
-        <div className="h-px flex-1 bg-border/30" />
-      </div>
+        {done ? (
+          <div className="py-8 text-center">
+            <p className="font-[var(--font-bebas)] text-4xl tracking-tight md:text-5xl">We'll reply by email.</p>
+            {submitStatus === "received" ? (
+              <p className="mt-4 font-mono text-xs text-muted-foreground">
+                Your message is with us. The confirmation email still needs to be sent.
+              </p>
+            ) : null}
+          </div>
+        ) : (
+          <div aria-live="polite">
+            {step < 2 ? (
+              <fieldset className="border-0 p-0">
+                <legend className="mx-auto mb-8 block w-full text-center font-[var(--font-bebas)] text-4xl tracking-tight md:text-5xl">
+                  {steps[step].title}
+                </legend>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {steps[step].options.map((option) => {
+                    const isSelected = selected === option
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => choose(steps[step].field, option)}
+                        className={`min-h-11 border px-4 py-3 font-mono text-[10px] uppercase tracking-[0.2em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                          isSelected
+                            ? "border-accent bg-accent text-accent-foreground"
+                            : "border-border/50 text-foreground hover:border-accent hover:text-accent"
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    )
+                  })}
+                </div>
+                {step === 0 && errors.service ? (
+                  <p className="mt-4 text-center font-mono text-xs text-destructive">{errors.service.message}</p>
+                ) : null}
+                {step === 1 && errors.budget ? (
+                  <p className="mt-4 text-center font-mono text-xs text-destructive">{errors.budget.message}</p>
+                ) : null}
+              </fieldset>
+            ) : (
+              <div className="space-y-5">
+                <h3 className="mb-8 text-center font-[var(--font-bebas)] text-4xl tracking-tight md:text-5xl">
+                  Where do we reply?
+                </h3>
+                <div>
+                  <label htmlFor="name" className={labelClass}>
+                    Name
+                  </label>
+                  <input
+                    {...register("name")}
+                    id="name"
+                    type="text"
+                    autoComplete="name"
+                    className={`${inputClass} mt-2`}
+                    placeholder="Your name"
+                  />
+                  {errors.name ? (
+                    <p className="mt-2 font-mono text-xs text-destructive">{errors.name.message}</p>
+                  ) : null}
+                </div>
+                <div>
+                  <label htmlFor="email" className={labelClass}>
+                    Email
+                  </label>
+                  <input
+                    {...register("email")}
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    className={`${inputClass} mt-2`}
+                    placeholder="you@company.com"
+                  />
+                  {errors.email ? (
+                    <p className="mt-2 font-mono text-xs text-destructive">{errors.email.message}</p>
+                  ) : null}
+                </div>
+                <div>
+                  <label htmlFor="note" className={labelClass}>
+                    Anything else
+                  </label>
+                  <p className="mt-1 font-mono text-[10px] text-muted-foreground">Optional. Add whatever you want us to know.</p>
+                  <textarea
+                    {...register("note")}
+                    id="note"
+                    rows={5}
+                    className={`${inputClass} mt-2 resize-y`}
+                    placeholder="Tell us about the project..."
+                  />
+                  {errors.note ? (
+                    <p className="mt-2 font-mono text-xs text-destructive">{errors.note.message}</p>
+                  ) : null}
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-2 flex h-12 w-full items-center justify-center border border-accent bg-accent font-mono text-xs uppercase tracking-[0.2em] text-accent-foreground transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isSubmitting ? "Sending…" : "Send"}
+                </button>
+                {submitStatus === "error" ? (
+                  <p className="text-center font-mono text-xs text-destructive">
+                    That didn't send. Try again, or email contact@scubafysolutions.com.
+                  </p>
+                ) : null}
+              </div>
+            )}
+
+            {step > 0 ? (
+              <button
+                type="button"
+                onClick={() => {
+                  if (advanceTimer.current) window.clearTimeout(advanceTimer.current)
+                  setStep((current) => current - 1)
+                }}
+                className="mx-auto mt-8 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Back
+              </button>
+            ) : null}
+          </div>
+        )}
+      </form>
 
       <a
         href="https://calendly.com/amadeus-christensen-scubafy/new-meeting"
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full px-6 py-3 border border-border/30 bg-background text-foreground font-mono text-sm uppercase tracking-wider rounded-md text-center hover:border-accent hover:text-accent transition-colors duration-200"
+        className="mt-8 block text-center font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
-        Book a Meeting
+        Book a meeting
       </a>
-
-      {submitStatus === "success" && (
-        <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-md">
-          <p className="font-mono text-sm text-green-400">
-            Thank you! Your message has been sent successfully.
-          </p>
-        </div>
-      )}
-
-      {submitStatus === "error" && (
-        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-md">
-          <p className="font-mono text-sm text-red-400">
-            Something went wrong. Please try again or email us directly at contact@scubafysolutions.com
-          </p>
-        </div>
-      )}
-    </form>
+    </div>
   )
 }

@@ -172,7 +172,7 @@ export function ColophonSection() {
             </li>
             <li>
               <a
-                href="#colophon"
+                href="/contact"
                 className="font-mono text-xs text-foreground/80 hover:text-accent transition-colors duration-200"
               >
                 Request Quote

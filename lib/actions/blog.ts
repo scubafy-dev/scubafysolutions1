@@ -12,6 +12,7 @@ import {
 import { getDb } from "@/lib/db"
 import { posts } from "@/lib/db/schema"
 import { getPostBySlug, slugify } from "@/lib/blog"
+import { normalizeCategory } from "@/lib/blog-categories"
 import { parseContentImages, serializeContentImages } from "@/lib/content-images"
 
 export type BlogFormState = {
@@ -52,10 +53,11 @@ function parsePostFields(formData: FormData) {
     ogTitle: field(formData, "ogTitle"),
     ogDescription: field(formData, "ogDescription"),
     ogImage: field(formData, "ogImage"),
-    category: field(formData, "category"),
+    category: normalizeCategory(field(formData, "category")),
     tags: field(formData, "tags"),
     authorName: field(formData, "authorName"),
     noIndex: formData.get("noIndex") === "on" || formData.get("noIndex") === "true",
+    featured: formData.get("featured") === "on" || formData.get("featured") === "true",
     published: formData.get("published") === "on" || formData.get("published") === "true",
     publishedAt,
     slugInput: String(formData.get("slug") ?? "").trim(),
@@ -156,6 +158,7 @@ export async function createPostAction(
       tags: data.tags,
       authorName: data.authorName,
       noIndex: data.noIndex,
+      featured: data.featured,
       published: data.published,
       publishedAt: resolvePublishedAt(data.published, data.publishedAt, null),
       updatedAt: now,
@@ -216,6 +219,7 @@ export async function updatePostAction(
       tags: data.tags,
       authorName: data.authorName,
       noIndex: data.noIndex,
+      featured: data.featured,
       published: data.published,
       publishedAt,
       updatedAt: now,

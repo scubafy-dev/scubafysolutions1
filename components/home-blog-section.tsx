@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { getPublishedPosts } from "@/lib/blog"
+import { categoryLabel } from "@/lib/blog-categories"
 
 function formatDate(date: Date | null) {
   if (!date) return ""
@@ -19,7 +20,9 @@ export async function HomeBlogSection() {
     posts = []
   }
 
-  const latest = posts.slice(0, 3)
+  const featured = posts.filter((post) => post.featured)
+  const rest = posts.filter((post) => !post.featured)
+  const latest = featured.length >= 4 ? featured : [...featured, ...rest].slice(0, 4)
 
   return (
     <section
@@ -64,8 +67,9 @@ export async function HomeBlogSection() {
                   </div>
                   <div className="space-y-3 text-center md:text-left">
                     <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                      {post.featured ? <span className="text-accent">Featured · </span> : null}
                       {formatDate(post.publishedAt)}
-                      {post.category ? ` · ${post.category}` : ""}
+                      {categoryLabel(post.category) ? ` · ${categoryLabel(post.category)}` : ""}
                     </p>
                     <h3 className="font-[var(--font-bebas)] text-3xl md:text-4xl tracking-tight group-hover:text-accent transition-colors">
                       {post.title}

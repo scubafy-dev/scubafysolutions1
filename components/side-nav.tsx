@@ -63,16 +63,16 @@ export function SideNav() {
   }
 
   const handleNavClick = (id: string) => {
+    if (id === "colophon") {
+      if (pathname !== "/contact") window.location.href = "/contact"
+      return
+    }
     if (pathname === "/") {
-      // On home page, scroll to section
       scrollToSection(id)
+    } else if (id === "hero") {
+      window.location.href = "/"
     } else {
-      // On other pages, navigate to home with hash
-      if (id === "hero") {
-        window.location.href = "/"
-      } else {
-        window.location.href = `/#${id}`
-      }
+      window.location.href = `/#${id}`
     }
   }
 
@@ -101,13 +101,17 @@ export function SideNav() {
               <span
                 className={cn(
                   "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                  pathname === "/" && activeSection === id ? "bg-accent scale-125" : "bg-muted-foreground/40 group-hover:bg-foreground/60",
+                  (pathname === "/" && activeSection === id) || (id === "colophon" && pathname === "/contact")
+                    ? "bg-accent scale-125"
+                    : "bg-muted-foreground/40 group-hover:bg-foreground/60",
                 )}
               />
               <span
                 className={cn(
                   "absolute left-6 font-mono text-[10px] uppercase tracking-widest opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:left-8 whitespace-nowrap",
-                  pathname === "/" && activeSection === id ? "text-accent" : "text-muted-foreground",
+                  (pathname === "/" && activeSection === id) || (id === "colophon" && pathname === "/contact")
+                    ? "text-accent"
+                    : "text-muted-foreground",
                 )}
               >
                 {label}

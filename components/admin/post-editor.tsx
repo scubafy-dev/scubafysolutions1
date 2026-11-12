@@ -10,6 +10,7 @@ import {
 } from "@/lib/actions/blog"
 import type { Post } from "@/lib/db/schema"
 import { slugify } from "@/lib/blog-client"
+import { BLOG_CATEGORIES, resolveBlogCategory } from "@/lib/blog-categories"
 import { parseContentImages, serializeContentImages } from "@/lib/content-images"
 
 const initialState: BlogFormState = {}
@@ -131,6 +132,8 @@ export function PostEditor({ post }: Props) {
   const contentImagesJson = serializeContentImages(imageRows.map((row) => row.url))
   const metaTitleLen = metaTitle.length || title.length
   const metaDescLen = metaDescription.length
+  const categoryValue = resolveBlogCategory(post?.category)?.slug ?? post?.category ?? ""
+  const categoryIsKnown = BLOG_CATEGORIES.some((category) => category.slug === categoryValue)
 
   return (
     <form action={formAction} className="mx-auto w-full max-w-3xl space-y-6">
@@ -174,8 +177,18 @@ export function PostEditor({ post }: Props) {
         </Field>
 
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Category" hint="e.g. Web Development">
-            <input name="category" defaultValue={post?.category ?? ""} className={inputClass} />
+          <Field label="Category" hint="Groups this post on the blog and homepage.">
+            <select name="category" defaultValue={categoryValue} className={inputClass}>
+              <option value="">None</option>
+              {BLOG_CATEGORIES.map((category) => (
+                <option key={category.slug} value={category.slug}>
+                  {category.label}
+                </option>
+              ))}
+              {categoryValue && !categoryIsKnown ? (
+                <option value={categoryValue}>{categoryValue}</option>
+              ) : null}
+            </select>
           </Field>
           <Field label="Author name" hint="Defaults to Scubafy Solutions in schema markup.">
             <input
@@ -446,6 +459,15 @@ export function PostEditor({ post }: Props) {
               className="accent-[var(--accent)] h-4 w-4"
             />
             Published (visible on /blog)
+          </label>
+          <label className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest cursor-pointer">
+            <input
+              type="checkbox"
+              name="featured"
+              defaultChecked={post?.featured ?? false}
+              className="accent-[var(--accent)] h-4 w-4"
+            />
+            Featured (pinned on the blog and homepage)
           </label>
           <label className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest cursor-pointer">
             <input

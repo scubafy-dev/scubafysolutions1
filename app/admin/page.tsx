@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { logoutAction } from "@/lib/actions/blog"
 import { getAllPosts } from "@/lib/blog"
+import { categoryLabel } from "@/lib/blog-categories"
 import { PostAdminActions } from "@/components/admin/post-admin-actions"
 
 export const metadata = {
@@ -81,6 +82,8 @@ export default async function AdminDashboardPage() {
                   </Link>
                   <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
                     /blog/{post.slug} · {statusLabel(post)}
+                    {categoryLabel(post.category) ? ` · ${categoryLabel(post.category)}` : ""}
+                    {post.featured ? " · Featured" : ""}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 shrink-0 items-center">

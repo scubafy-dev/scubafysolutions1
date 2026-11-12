@@ -63,7 +63,7 @@ const projects: Project[] = [
     medium: "Ongoing",
     description:
       "Websites, apps, and platforms for clients across industries — more work shipping every month.",
-    url: "/#colophon",
+    url: "/contact",
     variant: "more",
   },
 ]

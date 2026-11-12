@@ -92,7 +92,7 @@ export function TopicPageSection({
         )}
         <div className="pt-8 border-t border-border/20">
           <Link
-            href="/#colophon"
+            href="/contact"
             className="font-mono text-xs text-accent hover:underline uppercase tracking-wider"
           >
             Get in touch →
