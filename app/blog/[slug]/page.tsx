@@ -15,6 +15,19 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+const SITE_URL = "https://scubafysolutions.com"
+
+function absoluteCanonical(value: string | null | undefined, slug: string) {
+  const fallback = `${SITE_URL}/blog/${slug}`
+  const raw = value?.trim()
+  if (!raw) return fallback
+  try {
+    return new URL(raw, SITE_URL).toString()
+  } catch {
+    return fallback
+  }
+}
+
 function splitList(value: string | null | undefined) {
   if (!value) return []
   return value
@@ -62,7 +75,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: ogImage ? [ogImage] : undefined,
       },
       alternates: {
-        canonical: post.canonicalUrl || `/blog/${post.slug}`,
+        canonical: absoluteCanonical(post.canonicalUrl, post.slug),
       },
       category: categoryLabel(post.category) || undefined,
     }
@@ -119,7 +132,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": post.canonicalUrl || `/blog/${post.slug}`,
+      "@id": absoluteCanonical(post.canonicalUrl, post.slug),
     },
   }
 
