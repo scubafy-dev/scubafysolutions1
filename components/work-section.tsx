@@ -49,7 +49,7 @@ const projects: Project[] = [
     description:
       "A website showcasing their dive center, services, and diving adventures. Mobile-optimized design.",
     url: "https://www.allinscubaadventures.com/",
-    logo: "https://ik.imagekit.io/allinaquatic/all%20in%20aquatic%20images/logo%20transparent.png?updatedAt=1747057853185",
+    logo: "https://ik.imagekit.io/allinaquatic/all%20in%20aquatic%20images/logo%20transparent.png?updatedAt=1747057853185&tr=w-280,f-auto,q-80",
   },
   {
     title: "3× Confidential",
