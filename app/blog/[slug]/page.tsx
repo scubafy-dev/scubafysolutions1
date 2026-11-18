@@ -11,6 +11,14 @@ import { parseContentImages } from "@/lib/content-images"
 
 export const dynamic = "force-dynamic"
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://scubafysolutions.com").replace(/\/+$/, "")
+
+function canonicalFor(post: { slug: string; canonicalUrl?: string | null }) {
+  const custom = post.canonicalUrl?.trim()
+  if (custom && /^https?:\/\//i.test(custom)) return custom
+  return `${siteUrl}/blog/${post.slug}`
+}
+
 type Props = {
   params: Promise<{ slug: string }>
 }
@@ -62,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: ogImage ? [ogImage] : undefined,
       },
       alternates: {
-        canonical: post.canonicalUrl || `/blog/${post.slug}`,
+        canonical: canonicalFor(post),
       },
       category: categoryLabel(post.category) || undefined,
     }
@@ -119,7 +127,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": post.canonicalUrl || `/blog/${post.slug}`,
+      "@id": canonicalFor(post),
     },
   }
 
