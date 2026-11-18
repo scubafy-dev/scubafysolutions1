@@ -42,23 +42,25 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       (category) => category.slug === categoryParam(params.category),
     ) ?? null
   const title = active
-    ? `${active.label} — Blog — Scubafy Solutions`
-    : "Blog — Scubafy Solutions"
+    ? `${active.label}: Web Development and Growth Articles`
+    : "Web Development, AI and Growth Blog"
   const description = active
-    ? `${active.label} from Scubafy Solutions.`
-    : "Insights on web development, product engineering, and digital strategy from Scubafy Solutions."
+    ? `${active.label} articles from Scubafy Solutions on web development, AI, e-commerce and B2B growth.`
+    : "Web development, AI, e-commerce and B2B growth insights from Scubafy Solutions: practical guides, case studies and company news."
 
   return {
     title,
     description,
+    // Category filters are views of /blog, so they all point search engines at the main index.
+    alternates: { canonical: "/blog" },
+    robots: active ? { index: false, follow: true } : undefined,
     openGraph: {
-      title,
+      title: `${title} | Scubafy Solutions`,
       description,
       type: "website",
+      url: "/blog",
     },
-    alternates: {
-      canonical: active ? `/blog?category=${active.slug}` : "/blog",
-    },
+    twitter: { card: "summary_large_image", title: `${title} | Scubafy Solutions`, description },
   }
 }
 
@@ -100,7 +102,7 @@ function PostRow({ post }: { post: Post }) {
               {post.excerpt}
             </p>
           ) : null}
-          <span className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+          <span aria-hidden="true" className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
             Read →
           </span>
         </div>
@@ -136,12 +138,12 @@ export default async function BlogIndexPage({ searchParams }: Props) {
           <div className="mb-12 text-center">
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Blog</span>
             <h1 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">
-              {active ? active.label : "INSIGHTS"}
+              {active ? active.label : "WEB DEVELOPMENT & GROWTH INSIGHTS"}
             </h1>
             <p className="mt-4 mx-auto max-w-xl font-mono text-sm text-muted-foreground leading-relaxed">
               {active
                 ? `Posts filed under ${active.label}.`
-                : "Practical notes on building websites, apps, and digital products."}
+                : "Practical guides on custom web development, web and mobile apps, AI platforms, e-commerce and B2B lead generation, plus case studies and news from the Scubafy Solutions team."}
             </p>
             <Link
               href="/"

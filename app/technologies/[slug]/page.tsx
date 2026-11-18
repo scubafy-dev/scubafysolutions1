@@ -13,10 +13,15 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const content = topicContent.technologies[slug]
-  if (!content) return { title: "Technologies | Scubafy Solutions" }
+  if (!content) return { title: "Technologies" }
+  const description =
+    content.description.length > 160
+      ? `${content.description.slice(0, 154).replace(/\s+\S*$/, "")}...`
+      : content.description
   return {
-    title: `${content.title} | Scubafy Solutions`,
-    description: content.description,
+    title: `${content.title} Development`,
+    description,
+    alternates: { canonical: `/technologies/${slug}` },
   }
 }
 

@@ -48,7 +48,7 @@ const highlights = [
   "Modernized public site for the Sea Explorers brand and resort group",
   "Custom Guests CRM with profiles, history, and multi-property context",
   "Loyalty program built into the same operational stack",
-  "Direct booking that recovers ~18% typically lost to OTA commissions",
+  "Direct booking that avoids the ~18% commission OTAs typically charge",
   "Multi-role admin for reservations, rooms, transfers, dive trips, and financials",
   "Group-wide dashboard — filter by resort or view all properties at once",
 ]
@@ -122,8 +122,8 @@ export function SeaExplorersProject() {
         </p>
         <p className="font-mono text-sm text-foreground/80 leading-relaxed">
           Beyond a refreshed website, we shipped a custom CRM, loyalty program, and direct booking
-          flow designed to keep guests on their channels — recovering about{" "}
-          <span className="text-accent">18%</span> typically taken by OTAs.
+          flow designed to keep guests on their own channels, so direct bookings avoid the{" "}
+          <span className="text-accent">~18%</span> commission OTAs typically charge.
         </p>
         <p className="font-mono text-sm text-foreground/80 leading-relaxed">
           The multi-role admin dashboard is the day-to-day control center. Staff can filter by a

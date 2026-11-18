@@ -3,6 +3,15 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
+import {
+  defaultOgImage,
+  jsonLdString,
+  organizationJsonLd,
+  siteDescription,
+  siteName,
+  siteUrl,
+  websiteJsonLd,
+} from "@/lib/seo"
 import "./globals.css"
 
 // Self-hosted to avoid Turbopack/Google Fonts build failures
@@ -31,10 +40,24 @@ const bebasNeue = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Scubafy Solutions — Web Development Agency",
-  description:
-    "We build websites, web applications, and digital solutions. Professional web development services for businesses of all sizes.",
-  generator: "v0.app",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Scubafy Solutions | Custom Web, App and AI Development Agency",
+    template: "%s | Scubafy Solutions",
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName,
+    locale: "en_US",
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [defaultOgImage.url],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -57,6 +80,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdString([organizationJsonLd, websiteJsonLd]) }}
+        />
         <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-M7FRXGC6" />
         <script
           dangerouslySetInnerHTML={{

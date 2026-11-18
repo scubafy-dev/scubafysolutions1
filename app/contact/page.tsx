@@ -4,8 +4,15 @@ import { ContactForm } from "@/components/contact-form"
 import { SideNav } from "@/components/side-nav"
 
 export const metadata: Metadata = {
-  title: "Contact — Scubafy Solutions",
-  description: "Tell us what you need built. We'll reply by email.",
+  title: "Contact Us: Request a Quote or Book a Call",
+  description:
+    "Tell Scubafy Solutions what you need built: a website, web or mobile app, AI product or e-commerce store. Request a quote or book a call.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Scubafy Solutions",
+    description: "Request a quote or book a call for your website, app, AI or e-commerce project.",
+    url: "/contact",
+  },
 }
 
 export default function ContactPage() {

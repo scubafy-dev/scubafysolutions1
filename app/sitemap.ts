@@ -1,32 +1,44 @@
 import type { MetadataRoute } from "next"
 import { getPublishedPosts } from "@/lib/blog"
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scubafysolutions.com"
+import { getTopicHref, topicConfig } from "@/lib/topics"
+import { guides } from "@/lib/guides"
+import { siteUrl } from "@/lib/seo"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date()
+  const page = (
+    path: string,
+    priority: number,
+    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "monthly",
+    lastModified: Date = now,
+  ) => ({ url: path === "/" ? siteUrl : `${siteUrl}${path}`, lastModified, changeFrequency, priority })
+
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: siteUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${siteUrl}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    {
-      url: `${siteUrl}/work/sea-explorers`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    page("/", 1, "weekly"),
+    page("/contact", 0.8),
+    page("/blog", 0.8, "weekly"),
+    page("/about", 0.7),
+    page("/work/sea-explorers", 0.7),
+    page("/privacy", 0.2, "yearly"),
+    page("/terms", 0.2, "yearly"),
   ]
 
+  const serviceRoutes = topicConfig.services.map((t) => page(getTopicHref("services", t.slug), 0.9))
+  const stackRoutes = [
+    ...topicConfig.stack.map((t) => page(getTopicHref("stack", t.slug), 0.5)),
+    ...topicConfig.technologies.map((t) => page(getTopicHref("technologies", t.slug), 0.5)),
+  ]
+  const guideRoutes = guides.map((g) => page(`/guides/${g.slug}`, 0.7, "monthly", new Date(g.dateModified)))
+
+  let postRoutes: MetadataRoute.Sitemap = []
   try {
     const posts = await getPublishedPosts()
-    const postRoutes = posts.map((post) => ({
-      url: `${siteUrl}/blog/${post.slug}`,
-      lastModified: post.updatedAt,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }))
-    return [...staticRoutes, ...postRoutes]
+    postRoutes = posts
+      .filter((post) => !post.noIndex)
+      .map((post) => page(`/blog/${post.slug}`, 0.7, "monthly", post.updatedAt))
   } catch {
-    return staticRoutes
+    // Database unavailable at build time: publish the static routes only.
   }
+
+  return [...staticRoutes, ...serviceRoutes, ...guideRoutes, ...stackRoutes, ...postRoutes]
 }

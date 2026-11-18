@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const post = await getPublishedPostBySlug(slug)
     if (!post) return { title: "Post not found" }
 
-    const title = post.metaTitle || `${post.title} — Scubafy Solutions`
+    const title = post.metaTitle || post.title
     const description = post.metaDescription || post.excerpt || post.title
     const ogTitle = post.ogTitle || title
     const ogDescription = post.ogDescription || description
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ]
 
     return {
-      title,
+      title: { absolute: /scubafy/i.test(title) ? title : `${title} | Scubafy Solutions` },
       description,
       keywords: keywords.length ? keywords : undefined,
       robots: post.noIndex ? { index: false, follow: false } : { index: true, follow: true },
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       category: categoryLabel(post.category) || undefined,
     }
   } catch {
-    return { title: "Blog — Scubafy Solutions" }
+    return { title: "Blog" }
   }
 }
 
@@ -128,7 +128,9 @@ export default async function BlogPostPage({ params }: Props) {
     },
     publisher: {
       "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
       name: "Scubafy Solutions",
+      logo: { "@type": "ImageObject", url: `${siteUrl}/android-chrome-512x512.png` },
     },
     mainEntityOfPage: {
       "@type": "WebPage",

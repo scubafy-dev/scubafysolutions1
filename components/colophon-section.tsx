@@ -210,9 +210,39 @@ export function ColophonSection() {
             >
               Blog
             </Link>
+            <Link
+              href="/contact"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              Contact
+            </Link>
+            <Link
+              href="/guides/no-code-vs-custom-development-agency"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              No-code vs agency
+            </Link>
+            <Link
+              href="/guides/build-web-app-without-in-house-team"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              Build without an in-house team
+            </Link>
+            <Link
+              href="/privacy"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="font-mono text-[10px] text-muted-foreground hover:text-accent transition-colors duration-200"
+            >
+              Terms of Use
+            </Link>
           </div>
           <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
-            © 2026 Scubafy Pte. Ltd.
+            © {new Date().getFullYear()} Scubafy Pte. Ltd. · Singapore
           </p>
         </div>
         <SocialLinks

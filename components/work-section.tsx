@@ -35,7 +35,7 @@ const projects: Project[] = [
     title: "Sea Explorers",
     medium: "Resort Group",
     description:
-      "Modernized their site and built a custom CRM, loyalty system, and direct booking flow that saves ~18% vs OTA fees — plus a multi-resort admin for reservations, transfers, dive ops, and financials.",
+      "Modernized their site and built a custom CRM, loyalty system, and direct booking flow that avoids ~18% OTA commissions, plus a multi-resort admin for reservations, transfers, dive ops, and financials.",
     url: "/work/sea-explorers",
     logoDark:
       "https://ik.imagekit.io/hiw6wzfdz/sea%20ex/LOGO/SEA%20EXPLORES/Sea%20Explorers%20Logo%20for%20dark%20background.png",
