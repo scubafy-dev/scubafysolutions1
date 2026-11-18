@@ -60,7 +60,7 @@ export function AboutSection() {
             ← Back to Home
           </Link>
         </div>
-        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">WHO WE ARE</h2>
+        <h1 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">ABOUT SCUBAFY SOLUTIONS: WHO WE ARE</h1>
       </div>
 
       {/* Content */}
