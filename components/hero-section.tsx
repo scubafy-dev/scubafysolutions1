@@ -33,9 +33,9 @@ export function HeroSection() {
           </div>
         </SplitFlapAudioProvider>
 
-        <h2 className="font-[var(--font-bebas)] text-foreground/80 text-[clamp(1.1rem,3vw,2.25rem)] mt-4 tracking-wide">
-          Web Development & Digital Solutions
-        </h2>
+        <h1 className="font-[var(--font-bebas)] text-foreground/80 text-[clamp(1.1rem,3vw,2.25rem)] mt-4 tracking-wide">
+          Web Development Agency for Any Business or Industry
+        </h1>
 
         <p className="mt-12 max-w-md font-mono text-sm text-foreground/75 leading-relaxed">
           We design and develop custom websites, web applications, mobile apps, and digital platforms. Full-stack development services from frontend to backend, cloud infrastructure, APIs, custom AI platforms, e-commerce solutions, and more. Delivering scalable solutions that grow with your business.
