@@ -14,9 +14,14 @@ export const dynamic = "force-dynamic"
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://scubafysolutions.com").replace(/\/+$/, "")
 
 function canonicalFor(post: { slug: string; canonicalUrl?: string | null }) {
+  const fallback = `${siteUrl}/blog/${post.slug}`
   const custom = post.canonicalUrl?.trim()
-  if (custom && /^https?:\/\//i.test(custom)) return custom
-  return `${siteUrl}/blog/${post.slug}`
+  if (!custom) return fallback
+  try {
+    return new URL(custom, siteUrl).toString()
+  } catch {
+    return fallback
+  }
 }
 
 type Props = {
