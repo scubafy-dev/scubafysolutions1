@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import type { Post } from "@/lib/db/schema"
 
-const CONTENT_DIR = path.join(process.cwd(), "content", "blog")
+const CONTENT_DIR = path.join(process.cwd(), "content")
 
 type FrontmatterValue = string | boolean | string[]
 type Frontmatter = Record<string, FrontmatterValue>

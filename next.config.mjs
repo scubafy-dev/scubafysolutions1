@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   outputFileTracingIncludes: {
-    "/": ["./content/blog/**/*"],
-    "/blog": ["./content/blog/**/*"],
-    "/blog/[slug]": ["./content/blog/**/*"],
-    "/sitemap.xml": ["./content/blog/**/*"],
-    "/llms.txt": ["./content/blog/**/*"],
+    "/": ["./content/**/*"],
+    "/blog": ["./content/**/*"],
+    "/blog/[slug]": ["./content/**/*"],
+    "/sitemap.xml": ["./content/**/*"],
+    "/llms.txt": ["./content/**/*"],
   },
   typescript: {
     ignoreBuildErrors: true,
