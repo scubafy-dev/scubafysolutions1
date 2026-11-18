@@ -11,6 +11,15 @@ import { parseContentImages } from "@/lib/content-images"
 
 export const dynamic = "force-dynamic"
 
+const SITE_URL = "https://scubafysolutions.com"
+
+function absoluteCanonical(slug: string, custom?: string | null) {
+  const value = custom?.trim()
+  if (value && /^https?:\/\//i.test(value)) return value
+  if (value && value.startsWith("/")) return `${SITE_URL}${value}`
+  return `${SITE_URL}/blog/${slug}`
+}
+
 type Props = {
   params: Promise<{ slug: string }>
 }
@@ -62,7 +71,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: ogImage ? [ogImage] : undefined,
       },
       alternates: {
-        canonical: post.canonicalUrl || `/blog/${post.slug}`,
+        canonical: absoluteCanonical(post.slug, post.canonicalUrl),
       },
       category: categoryLabel(post.category) || undefined,
     }
@@ -119,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": post.canonicalUrl || `/blog/${post.slug}`,
+      "@id": absoluteCanonical(post.slug, post.canonicalUrl),
     },
   }
 
