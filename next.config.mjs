@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingIncludes: {
+    "/": ["./content/blog/**/*"],
+    "/blog": ["./content/blog/**/*"],
+    "/blog/[slug]": ["./content/blog/**/*"],
+    "/sitemap.xml": ["./content/blog/**/*"],
+    "/llms.txt": ["./content/blog/**/*"],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
