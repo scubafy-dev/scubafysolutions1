@@ -2,8 +2,30 @@ import { companySocialLinks } from "@/components/social-links"
 import { topicConfig, topicContent } from "@/lib/topics"
 import { serviceSeo } from "@/lib/service-seo"
 
-/** Canonical origin for every absolute URL the site emits (no trailing slash). */
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://scubafysolutions.com").replace(/\/+$/, "")
+const APEX_HOST = "scubafysolutions.com"
+const CANONICAL_HOST = "www.scubafysolutions.com"
+
+/**
+ * Origin for every absolute URL the site emits (no trailing slash).
+ * Vercel answers on www and 307s the apex host to www before the app runs.
+ * Canonicals must use www, or Google treats the pair as a redirect loop.
+ */
+function resolveSiteUrl() {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  const fallback = `https://${CANONICAL_HOST}`
+  if (!configured) return fallback
+  try {
+    const url = new URL(configured)
+    if (url.hostname === APEX_HOST || url.hostname === CANONICAL_HOST) {
+      return `https://${CANONICAL_HOST}`
+    }
+    return url.origin
+  } catch {
+    return fallback
+  }
+}
+
+export const siteUrl = resolveSiteUrl()
 
 export const siteName = "Scubafy Solutions"
 
@@ -16,9 +38,18 @@ export const bookingUrl = "https://calendly.com/amadeus-christensen-scubafy/new-
 export const organizationId = `${siteUrl}/#organization`
 export const websiteId = `${siteUrl}/#website`
 
+/** Absolute URL on the host that returns 200. Rewrites the apex host to www. */
+export function canonicalHref(pathOrUrl: string) {
+  const url = new URL(pathOrUrl, siteUrl)
+  if (url.hostname === APEX_HOST) {
+    url.protocol = "https:"
+    url.hostname = CANONICAL_HOST
+  }
+  return url.toString()
+}
+
 export function absoluteUrl(path = "/") {
-  if (/^https?:\/\//.test(path)) return path
-  return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`
+  return canonicalHref(path)
 }
 
 /** Serialize JSON-LD safely for a <script> tag. */

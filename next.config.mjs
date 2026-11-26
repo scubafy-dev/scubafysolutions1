@@ -10,6 +10,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/stack/:slug",
+        destination: "/tech-stack/:slug",
+        permanent: true,
+      },
+    ]
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
